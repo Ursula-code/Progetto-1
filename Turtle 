@@ -1,0 +1,30 @@
+import turtle               # Importo modulo turtle
+
+window = turtle.Screen()    # Creo una finestra dove lavorare
+raffaello = turtle.Turtle() # Creo una tartaruga e la assegno alla variabile "raffaello"
+
+raffaello.color('red')
+     # Dico a "raffaello" di andare avanti di 50 passi
+#for i in range(4):
+for i in ['red', 'blue', 'violet', 'orange']:
+   
+    raffaello.color(i)
+    
+    raffaello.forward(50)
+    raffaello.left(90)
+
+
+leonardo = turtle.Turtle()
+leonardo.color('blue')
+leonardo.forward(50)
+leonardo.left(120)
+leonardo.forward(50)
+leonardo.left(120)
+leonardo.forward(50)
+leonardo.left(120)
+
+type(True)
+
+window.mainloop()           # Attende che l'utente chiuda la finestra di gioco o fermi il programma
+
+
