@@ -1,0 +1,18 @@
+def is_pari(n):
+    """ritorna vero se "n" è pari, se no ritorna falso """
+    
+    risultato = True
+
+    if n%2 != 0 :
+        risultato = False
+
+    return risultato 
+
+######
+numero = int (input ('dammi un numero:'))
+
+print(type (numero))
+
+result = is_pari (numero)
+
+print(result)

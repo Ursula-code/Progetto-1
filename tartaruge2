@@ -1,0 +1,88 @@
+"""
+import turtle               # Importo modulo turtle
+
+def disegna_quadrato(tartaruga, size):
+  for i in range(4):
+    tartaruga.forward(size)
+    tartaruga.left(90)
+    
+window = turtle.Screen()    # Creo una finestra dove lavorare
+raffaello = turtle.Turtle() # Creo una tartaruga e la assegno alla variabile "raffaello"
+
+raffaello.color('red')
+     # Dico a "raffaello" di andare avanti di 50 passi
+#for i in range(4):
+for i in ['red', 'blue', 'violet', 'orange']:
+   
+    raffaello.color(i)
+    
+    raffaello.forward(50)
+    raffaello.left(90)
+
+disegna_quadrato(raffaello, 50)
+
+def somma (a,b):
+  risultato = a + b
+  return risultato 
+  
+result = somma(3,4)
+print (result)
+
+leonardo = turtle.Turtle()
+leonardo.color('blue')
+#leonardo.pensize(10)
+def disegna_triangolo(tartaruga):
+  for i in range(3):
+    tartaruga.forward(50)
+    tartaruga.left(120)
+
+disegna_quadrato(leonardo, 20)
+
+disegna_triangolo(leonardo)
+
+#leonardo.forward(50)
+#leonardo.left(120)
+#leonardo.forward(50)
+#leonardo.left(120)
+#leonardo.forward(50)
+#leonardo.left(120)
+
+#disegna_quadrato(leonardo)
+
+type(True)
+
+window.mainloop()           # Attende che l'utente chiuda la finestra di gioco o fermi il programma
+"""
+
+
+def koch(t, order, size):
+    """
+       La tartaruga t disegna frattale Koch di 'order' and 'size'
+       lasciando la tartaruga nella direzioni iniziale
+    """
+
+    if order == 0:          
+        # caso base che termina la ricorsione
+        t.forward(size)
+    else:
+        # caso ricorsivo (ordine 1) in cui disegna i 4 segmenti
+        koch(t, order-1, size/3)  
+        t.left(60)
+        koch(t, order-1, size/3)
+        t.right(120)
+        koch(t, order-1, size/3)
+        t.left(60)
+        koch(t, order-1, size/3)
+        ##
+        
+import turtle
+
+window = turtle.Screen()    # Creo una finestra dove lavorare
+raffaello = turtle.Turtle() # Creo una tartaruga e la assegno alla variabile "raffaello"
+
+raffaello.color('red')
+     # Dico a "raffaello" di andare avanti di 50 passi
+
+koch(raffaello, 3, 400)
+
+window.mainloop()
