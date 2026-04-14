@@ -1,0 +1,21 @@
+"""Punto 1"""
+""" def is_pari (n):
+    if n == n * 2:
+        return True 
+    else: 
+        return False
+numero = 5
+print (is_pari (numero))"""
+
+"""Punto 2"""
+def chiedi_numero ():
+    while True:
+        scelta = input("Inserisci numero:")
+        numero = int(scelta)
+        if numero > 0:
+            return numero 
+        else:
+            print("Errore: il numero deve essere positivo, riprova!")
+
+risultato = chiedi_numero ()
+print(risultato )
