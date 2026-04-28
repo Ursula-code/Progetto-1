@@ -1,0 +1,78 @@
+#Esercizio punto 1
+'''def is_pari(n):
+    resto = n%2
+    if resto == 0 :
+        return True
+
+    else :
+        return False 
+
+print (is_pari(4))'''
+
+
+# Esercizio punto 2
+'''def numero_intero ():
+    
+    while True: # inizia un loop 
+        numero = int(input("Scriva un numero intero positivo:")) 
+        #chiede all'untente un numero intero 
+        if numero <= 0: # se è minore uguale a zero il loop ricomincia 
+            print ("il numero non è corretto, riprovare!")
+        else: # se è maggiore di zero il loop finisce 
+            return ("corretto, grazie!")
+            break 
+
+print (numero_intero())'''
+
+
+
+# Esercizio Punto 3
+def crea_lista():
+    numero = int(input("Scrivere un numero:"))
+    lista = [numero]
+    while lista[-1] != 1 and len(lista)<100 :
+        ultimo_numero = lista[-1]
+        if ultimo_numero%2 == 0 :
+            nuovo = ultimo_numero / 2
+            lista.append(nuovo)
+        else:
+            nuovo = (ultimo_numero*3)+1
+            lista.append(nuovo)
+    return lista
+
+
+
+#print (crea_lista())
+
+#Esercizio Punto 4
+def analizza_sequenza(lista):
+    massimo = lista[0]
+    for n in lista:
+         if n > massimo:
+            massimo = n 
+            risultato_finale = n
+    lunghezza = len(lista) 
+    totale_somma = 0
+    for i in lista:
+        totale_somma += i  
+    valori = [risultato_finale, lunghezza, totale_somma]
+    return (valori)
+        
+
+
+def ricerca(lista):
+    for i in lista: 
+        if i % 5 == 0:
+            scelto = i
+            print (scelto)
+            trovato = True
+    if trovato == False: 
+        return ("non ci sono!")
+
+
+
+mia_lista_risultato = crea_lista()
+
+print (mia_lista_risultato)
+print (analizza_sequenza(mia_lista_risultato))
+print (ricerca(mia_lista_risultato))
