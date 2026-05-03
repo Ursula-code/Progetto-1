@@ -25,7 +25,6 @@ print (is_pari(4))'''
 print (numero_intero())'''
 
 
-
 # Esercizio Punto 3
 def crea_lista():
     numero = int(input("Scrivere un numero:"))
@@ -47,6 +46,7 @@ def crea_lista():
 #Esercizio Punto 4
 def analizza_sequenza(lista):
     massimo = lista[0]
+    risultato_finale = lista[0]
     for n in lista:
          if n > massimo:
             massimo = n 
@@ -59,8 +59,9 @@ def analizza_sequenza(lista):
     return (valori)
         
 
-
+# Esercizio Punto 5
 def ricerca(lista):
+    trovato = False
     for i in lista: 
         if i % 5 == 0:
             scelto = i
@@ -69,10 +70,32 @@ def ricerca(lista):
     if trovato == False: 
         return ("non ci sono!")
 
+# Esercizio Punto 6
+def main():
+    domanda = int(input("Quanti numeri vuoi testare? "))
+    if domanda == 0 :
+        print ("ok, grazie!")
+    if domanda > 0 :
+        for i in range(0, domanda) :
+            mia_lista_risultato = crea_lista()
+            print (mia_lista_risultato)
+            print (analizza_sequenza(mia_lista_risultato))
+            risultato_ricerca = ricerca(mia_lista_risultato)
+            print (risultato_ricerca)      
+
+if __name__ == "__main__":
+    main()
+        
 
 
-mia_lista_risultato = crea_lista()
 
-print (mia_lista_risultato)
-print (analizza_sequenza(mia_lista_risultato))
-print (ricerca(mia_lista_risultato))
+
+
+'''mia_lista_risultato = crea_lista()
+            print (mia_lista_risultato)
+            print (analizza_sequenza(mia_lista_risultato))
+            risultato_ricerca = ricerca(mia_lista_risultato)
+            print (risultato_ricerca)'''
+
+
+
