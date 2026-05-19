@@ -1,0 +1,62 @@
+# Esercizio 8
+# Autore:
+# Data :
+'''dopo ogni definizione documenta cosa fa la funzione es.*'''
+
+import random
+
+def gioca_impiccato(parola_segreta):
+    '''per esempio *'''
+    parola_segreta = parola_segreta.lower()
+    lettere_indovinate = set()
+    lettere_errate = set()
+    tentativi_rimasti = 6
+
+    print("--- BENVENUTO AL GIOCO DELL'IMPICCATO! ---")
+
+    while tentativi_rimasti > 0:
+        # 1. Mostra lo stato attuale della parola (es. "m _ n _ o")
+        visualizzazione = [lettera if lettera in lettere_indovinate else "_" for lettera in parola_segreta]
+        print("\nParola da indovinare: " + " ".join(visualizzazione))
+        print(f"Tentativi rimasti: {tentativi_rimasti}")
+        if lettere_errate:
+            print(f"Lettere errate: {', '.join(sorted(lettere_errate))}")
+
+        # 2. Controllo della vittoria
+        if "_" not in visualizzazione:
+            print(f"\n🎉 Complimenti! Hai indovinato la parola: '{parola_segreta}'!")
+            return True
+
+        # 3. Input dell'utente con validazione
+        tentativo = input("Inserisci una lettera: ").lower().strip()
+
+        if len(tentativo) != 1 or not tentativo.isalpha():
+            print("❌ Input non valido. Inserisci una singola lettera.")
+            continue
+
+        if tentativo in lettere_indovinate or tentativo in lettere_errate:
+            print("⚠️ Hai già provato questa lettera. Scegline un'altra.")
+            continue
+
+        # 4. Controllo della lettera inserita
+        if tentativo in parola_segreta:
+            print(f"✨ Ottimo! La lettera '{tentativo}' è presente.")
+            lettere_indovinate.add(tentativo)
+        else:
+            print(f"🔴 Peccato! La lettera '{tentativo}' NON è presente.")
+            lettere_errate.add(tentativo)
+            tentativi_rimasti -= 1
+
+    # 5. Fine dei tentativi (Sconfitta)
+    print(f"\n💥 Hai perso! L'impiccato è completo. La parola era: '{parola_segreta}'.")
+    return False
+
+# --- Esempio di utilizzo ---
+# Puoi definire una lista di parole e sceglierne una a caso
+lista_parole = ["python", "programmazione", "computer", "funzione", "sviluppatore"]
+parola_casuale = random.choice(lista_parole)
+
+# Avvia il gioco
+gioca_impiccato(parola_casuale)
+
+
