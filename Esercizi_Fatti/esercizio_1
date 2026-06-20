@@ -1,6 +1,7 @@
 #Esercizio punto 1
 '''def is_pari(n):
     resto = n%2
+    # Ritorno True se il resto della divisione per 2 è 0, altrimenti ritorno False  
     if resto == 0 :
         return True
 
@@ -12,13 +13,15 @@ print (is_pari(4))'''
 
 # Esercizio punto 2
 '''def numero_intero ():
-    
-    while True: # inizia un loop 
+    # inizia un loop
+    while True: 
+        #chiede all'untente un numero intero
         numero = int(input("Scriva un numero intero positivo:")) 
-        #chiede all'untente un numero intero 
-        if numero <= 0: # se è minore uguale a zero il loop ricomincia 
+        # se è minore uguale a zero il loop ricomincia
+        if numero <= 0:  
             print ("il numero non è corretto, riprovare!")
-        else: # se è maggiore di zero il loop finisce 
+        # se è maggiore di zero il loop finisce
+        else:  
             return ("corretto, grazie!")
             break 
 
@@ -27,16 +30,27 @@ print (numero_intero())'''
 
 # Esercizio Punto 3
 def crea_lista():
+    #Chiedo all'utente di inserire un numero intero 
     numero = int(input("Scrivere un numero:"))
+    #Inizializza la lista inserendo come primo elemento il numero scelto 
     lista = [numero]
+
+    #il ciclo continua finchè l'ultimo elemento non è 1 oppure finchè la lista è < 100
     while lista[-1] != 1 and len(lista)<100 :
+        #Recupera l'ultimmo elemento inserito nella lista 
         ultimo_numero = lista[-1]
+
+        # Controlla se l'ultimo numero è pari 
         if ultimo_numero%2 == 0 :
+            #Se è pari, lo divide per 2
             nuovo = ultimo_numero / 2
             lista.append(nuovo)
         else:
+            #Se è dispari, lo moltiplica per 3 e aggiunge 1
             nuovo = (ultimo_numero*3)+1
             lista.append(nuovo)
+    
+    # Quando il ciclo finisce restituice la lista completa della sequenza
     return lista
 
 
@@ -45,43 +59,88 @@ def crea_lista():
 
 #Esercizio Punto 4
 def analizza_sequenza(lista):
+    # Inizializzo le variabili pe il valore massimo usando il primo elemento della lista
     massimo = lista[0]
     risultato_finale = lista[0]
+
+    # il ciclo scorre ogni numero nella lista 
     for n in lista:
+        
+        # se il numero corrente è maggiore del massimo allora: 
          if n > massimo:
-            massimo = n 
-            risultato_finale = n
+            massimo = n                     #Aggiorna il valore numerico del massimo                   
+            risultato_finale = n            #Salva il numero come risultato finale 
+    
+    # Calcola quanti elementi ci sono nella lista 
     lunghezza = len(lista) 
+    
+    #Calcola la somma di tutti gli elementi della lista 
     totale_somma = 0
     for i in lista:
-        totale_somma += i  
+        totale_somma += i 
+
+    # Crea una lista contenente i tre valori calcolati  
     valori = [risultato_finale, lunghezza, totale_somma]
+    #restituisce la lista con i dati 
     return (valori)
         
 
 # Esercizio Punto 5
 def ricerca(lista):
+    #Variavili di controllo per sapere se c'è un numero divisibile per 5
     trovato = False
+
+    #scorre ogni elemento della lista 
     for i in lista: 
+        #Controlla se l'elemento è divisibile per 5 
         if i % 5 == 0:
             scelto = i
             print (scelto)
-            trovato = True
+            trovato = True      # Cambia flag a True perche ne ha torvato almeno 1
+    
+   # se dopo aver controllato tutta la lista il falg p ancora False, allora stampa: non ci sono! 
     if trovato == False: 
         return ("non ci sono!")
 
+
 # Esercizio Punto 6
 def main():
+    
     domanda = int(input("Quanti numeri vuoi testare? "))
+    
     if domanda == 0 :
         print ("ok, grazie!")
+    
     if domanda > 0 :
+        # Inizializzo le variabili per tenere traccia del record
+        lunghezza_massima = 0
+        numero_vincente = None 
         for i in range(0, domanda) :
             mia_lista_risultato = crea_lista()
+
+            #il primo elemento è il numero di partenza inserito dall'utente
+            numero_iniziale = mia_lista_risultato[0]
             print (mia_lista_risultato)
-            print (analizza_sequenza(mia_lista_risultato))
+            
+            #analizza_sequenza restituisce la[risultato_finale, lunghezza, totale_somma] 
+            analisi = analizza_sequenza(mia_lista_risultato)
+            print(analisi)
+        
+           #estaggo la lunghezza della sequenza corrente (ovvero, il secondo elemento di indice 1) 
+            lunghezza_corrente = analisi[1]
+
             risultato_ricerca = ricerca(mia_lista_risultato)
-            print (risultato_ricerca)      
+            print (risultato_ricerca) 
+
+            # Confronto la lunghezza corrente con il massimo storico 
+            if lunghezza_corrente > lunghezza_massima:
+                lunghezza_massima = lunghezza_corrente
+                numero_vincente =numero_iniziale 
+
+        # stampo il riepicolo finale
+        print("---Riepilogo Finale---")
+        print(f"il numero che ha generato la sequenza più lungha è: {numero_vincente}") 
+        print(f"la lunghezza della sua sequenza è di {lunghezza_massima} ")    
 
 if __name__ == "__main__":
     main()
