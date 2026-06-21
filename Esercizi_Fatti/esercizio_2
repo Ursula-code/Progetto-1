@@ -1,1 +1,48 @@
-# Esercizio punto 1 
+# Esercizio 2
+# Autore: Sechi Ursula
+# Data: 21/03/2026
+
+
+
+
+
+
+# Esercizio Punto 1 
+testo = '''
+Day after day, day after day,
+We stuck, nor breath nor motion;
+As idle as a painted ship
+Upon a painted ocean.
+
+Water, water, every where,
+And all the boards did shrink;
+Water, water, every where,
+Nor any drop to drink.
+
+The very deep did rot: O Christ!
+That ever this should be!
+Yea, slimy things did crawl with legs
+Upon the slimy sea.
+
+About, about, in reel and rout
+The death-fires danced at night;
+The water, like a witch's oils,
+Burnt green, and blue and white.
+'''
+
+# Definisco la funzione di conteggio 
+def conteggio_righe(testo):
+    # divide il testo in righe differenti, per non leggerlo come se fosse un'unica stringa
+    righe = testo.splitlines()
+
+    conteggio = 0
+
+    #il loop assicura che vengano contate tutte le righe 
+    for riga in righe:
+        # questo permette di scartare le righe vuote
+        if riga. strip():
+            conteggio += 1 
+    return conteggio     
+
+ 
+print(conteggio_righe(testo))

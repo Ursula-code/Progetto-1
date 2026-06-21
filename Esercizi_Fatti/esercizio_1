@@ -1,3 +1,10 @@
+# Esercizio 1 
+# Autore: Sechi Ursula
+# Data: 15/03/2026
+
+
+
+
 #Esercizio punto 1
 '''def is_pari(n):
     resto = n%2
