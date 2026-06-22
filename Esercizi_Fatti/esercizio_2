@@ -5,9 +5,7 @@
 
 
 
-
-
-# Esercizio Punto 1 
+ 
 testo = '''
 Day after day, day after day,
 We stuck, nor breath nor motion;
@@ -30,19 +28,116 @@ The water, like a witch's oils,
 Burnt green, and blue and white.
 '''
 
-# Definisco la funzione di conteggio 
+
+# Esercizio Punto 1
 def conteggio_righe(testo):
+    
     # divide il testo in righe differenti, per non leggerlo come se fosse un'unica stringa
     righe = testo.splitlines()
 
-    conteggio = 0
+    contatore_r = 0
 
     #il loop assicura che vengano contate tutte le righe 
     for riga in righe:
         # questo permette di scartare le righe vuote
-        if riga. strip():
-            conteggio += 1 
-    return conteggio     
+        if riga.strip():
+            contatore_r += 1 
+    return contatore_r     
 
- 
-print(conteggio_righe(testo))
+
+# Esercizio Punto 2 
+def conteggio_parole(testo): 
+   
+    #divide le parole del testo basandosi sugli spazi   
+    parole = testo.split()
+
+    contatore_p = 0
+    
+    # il loop assicura che vengano contate tutte le parole
+    for parola in parole:
+        #permette di dividere le parole scartando gli spazi
+        if parola.strip():
+            contatore_p += 1
+    return contatore_p
+
+
+# Esercizio Punto 3
+def conteggio_caratteri(testo): 
+    
+    contatore_c = 0
+    
+    # Voglio iterare direttamente sulla stringa testo
+    for carattere in testo:
+        #Verifica se il singolo carattere è alfanumerico 
+        if carattere.isalnum():
+            contatore_c += 1
+    return contatore_c
+
+
+# Esercizio Punto 4
+def conta_lettera(testo):
+    
+    #chiede all'utente la lettera da cercare
+    lettera_da_cercare = input("Quale lettera vuoi contare?")
+
+    contatore_l = 0
+    
+    #scorre tutti i caratteri del testo 
+    for carattere in testo:
+        #se il carattere è uguale alla lettera data
+        if carattere == lettera_da_cercare:
+            contatore_l += 1                    # allora incrementa il contatore
+    return contatore_l
+
+
+# Esercizio Punto 5
+def sostituzione_parole(testo):
+
+    parola_da_sostituire =["day", "water", "about"] 
+    sostituto = "PYTHON"
+
+    #inizializzo testo_n con il testo originale 
+    testo_n = testo 
+
+    for parola in parola_da_sostituire:
+        #sostituisco dentro la stringa che sto modificando 
+        testo_n = testo_n.replace(parola, sostituto)
+    return testo_n
+
+
+# Esercizio Punto 6
+def parole_maiuscole (testo):
+
+    risultato = ""
+    parola_corrente = ""
+    indice_parola = 0
+
+    # aggiungo uno spazio finale per assicurare di processare l'ultima parola
+    for carattere in testo + " ":
+        #se il carattere è alfanumerico, fa parte di una parola 
+        if carattere.isalnum():
+            parola_corrente += carattere
+        else:
+            #ho trovato uno spazio o puteggiatura, perciò la parola è finita
+            if parola_corrente:
+                if indice_parola % 2 != 0:
+                    risultato += parola_corrente.upper()
+                else:
+                    risultato += parola_corrente
+                indice_parola += 1
+                parola_corrente = ""
+            #aggiungo il carattere non alfanumerico 
+            risultato += carattere
+    return risultato
+
+#print(conteggio_righe(testo))
+
+#print (conteggio_parole(testo))
+
+#print(conteggio_caratteri(testo))
+
+#print(conta_lettera(testo))
+
+#print(sostituzione_parole(testo))
+
+print(parole_maiuscole(testo))
