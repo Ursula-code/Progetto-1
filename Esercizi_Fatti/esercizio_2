@@ -130,6 +130,54 @@ def parole_maiuscole (testo):
             risultato += carattere
     return risultato
 
+
+# Esercizio Punto 7
+def testo_al_contrario(testo):
+
+    #divido la stringa testo in una lista di righe 
+    righe = testo.splitlines()
+    
+    # inverto l'ordine delle righe usando lo slicing
+    righe_invertite = righe[: : -1]
+
+    #riscrivo le righe in ordine invertito 
+    for riga in righe_invertite:
+        print(riga)
+
+# Esercizio Punto 8
+def scrittura_a_specchio(testo):
+
+    righe = testo.splitlines()
+
+    indici_seconde_righe = []
+
+    #cerco gli indici delle righe che mi servono
+    for i in range(len(righe)):
+        #inserisco gli indici delle seconde righe di ogni verso in una lista
+        if i == 0:          
+            if righe[i].strip():
+                indici_seconde_righe.append(i)
+        #le seconde righe sono quelle che hanno una riga vuota -2 posti prima e che sono non vuote
+        elif righe[i-2].strip() == "" and righe[i].strip() != "":
+            indici_seconde_righe.append(i)
+    
+    #per ogni indice di riga, viene presa la riga e ne vengono invertite le lettere
+    for indice in indici_seconde_righe:
+
+        riga_originale = righe[indice]
+
+        riga_a_specchio = riga_originale[: : -1]
+        
+        righe[indice] = riga_a_specchio
+    
+    #ritorna il testo sostituendo con le righe al contrario 
+    return "\n" .join(righe)
+
+
+        
+
+
+
 #print(conteggio_righe(testo))
 
 #print (conteggio_parole(testo))
@@ -140,4 +188,8 @@ def parole_maiuscole (testo):
 
 #print(sostituzione_parole(testo))
 
-print(parole_maiuscole(testo))
+#print(parole_maiuscole(testo))
+
+#testo_al_contrario(testo)
+
+print(scrittura_a_specchio(testo))
