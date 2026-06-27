@@ -174,22 +174,114 @@ def scrittura_a_specchio(testo):
     return "\n" .join(righe)
 
 
+# Esercizio Punto 9 
+def parole_ripetute(testo):
+
+    #Divito il testo in strofe sfruttando le righe vuote (\n\n)
+    strofe = testo.strip().split("\n\n") 
+
+    lista_insiemi_strofe = []
+
+    for strofa in strofe: 
+
+        #pulisco la strofa dalla punteggiatura convertendolo in minuscolo
+        percorsi_puliti = strofa.lower().replace(",","").replace(";","").replace(".","").replace(":","")
+        #divido in parole 
+        parole_strofa = percorsi_puliti.split()
+
+        #converto in un set di parole uniche della strofa
+        lista_insiemi_strofe.append(set(parole_strofa))
         
+#cerco le parole comuni a tutte le strofe usando l'intersezione 
+    #prendo il set della prima strofa e lo interseco con gli altri 
+    parole_comuni = lista_insiemi_strofe[0].intersection(*lista_insiemi_strofe[1:])
+
+    #visualizzo il risultato convertendolo in lista
+    risultato = list(parole_comuni)
+
+    print(risultato) #non ci sono parole ripetute in tutte le strofe
 
 
+# Esercizio Punto 10 
+def lista_univoca(testo):
 
-#print(conteggio_righe(testo))
+    #pulisco il testo dalla punteggiatura convertendolo in minuscolo 
+    testo_pulito = testo.lower().replace(",","").replace(";","").replace(".","").replace(":","")
+    
+    #divido il testo in una lista di singole parole 
+    tutte_le_parole = testo_pulito.split()
 
-#print (conteggio_parole(testo))
+    #rendo la lista "univoca"
+    parole_uniche_set = set(tutte_le_parole)        #convertendola in un set (il che elimina i duplicati)
 
-#print(conteggio_caratteri(testo))
+    #converto il set nuovamente in una lista 
+    lista_univoca = list(parole_uniche_set)
 
-#print(conta_lettera(testo))
+    #riordino la lista in base alla lunghezza delle parole 
+    lista_ordinata = sorted(lista_univoca, key=len)
 
-#print(sostituzione_parole(testo))
+    print(lista_ordinata)
 
-#print(parole_maiuscole(testo))
 
-#testo_al_contrario(testo)
+# Esercizio Punto 11
+def dizionario_ogni_carattere(testo):
+
+    #creo un dizionario vuoto 
+    conteggio_caratteri = {}
+
+    #scorro su ogni carattere del testo 
+    for carattere in testo:
+        if carattere in conteggio_caratteri:
+            #se è gia nel dizionario incremento solo il contatore 
+            conteggio_caratteri[carattere] += 1 
+        else:
+            #se è la prima volta che incontro questo carattere lo inserisco con il valore 1
+            conteggio_caratteri[carattere] = 1
+
+    print(conteggio_caratteri)
+
+
+# Esercizio Punto 12
+def dizionario_caratteri_alfanumerici(testo):
+
+    #creo un dizionario vuoto 
+    conteggio_caratteri_a = {}
+
+    nuovo_testo = testo.strip()
+
+    #scorro su ogni carattere del testo 
+    for carattere in nuovo_testo:
+        if carattere.isalnum() and carattere in conteggio_caratteri_a:
+            #se è gia nel dizionario incremento solo il contatore 
+            conteggio_caratteri_a[carattere] += 1 
+        elif carattere.isalnum() and carattere not in conteggio_caratteri_a:
+            #se è la prima volta che incontro questo carattere lo inserisco con il valore 1
+            conteggio_caratteri_a[carattere] = 1
+
+    print(conteggio_caratteri_a)
+
+'''
+print(conteggio_righe(testo))
+
+print (conteggio_parole(testo))
+
+print(conteggio_caratteri(testo))
+
+print(conta_lettera(testo))
+
+print(sostituzione_parole(testo))
+
+print(parole_maiuscole(testo))
+
+testo_al_contrario(testo)
 
 print(scrittura_a_specchio(testo))
+
+parole_ripetute(testo)
+
+lista_univoca(testo)
+
+dizionario_ogni_carattere(testo)
+
+dizionario_caratteri_alfanumerici(testo)
+'''
