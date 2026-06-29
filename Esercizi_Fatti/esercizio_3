@@ -1,0 +1,49 @@
+# Esercizio 3
+# Autore: Sechi Ursula 
+# Data: 30/03/2026
+
+
+
+
+rubrica = {
+  'Paolino Paperino': {'giorno': 9,
+                      'mese': 'giugno',
+                      'anno': 1934,
+                      'età': 93,
+                      'sesso': 'M',
+                      'mail': 'paolino.paperin0@disney.org'},
+'Ron Weasley': {'giorno': 1, 
+                'mese': 'marzo', 
+                'anno': 1980, 
+                'età': 46, 
+                'sesso': 'M', 
+                'mail': 'ron_weasley80@hogwards.uk'},
+'Ramona Flowers': {'giorno': 19, 'mese': 'ottobre', 'anno': 2004, 'età': 22, 'sesso': 'F', 'mail': 'ramona.fls@gmail.com'},
+'Madoka Ayukawa': {'giorno': 25, 'mese': 'maggio', 'anno': 1969, 'età': 57, 'sesso': 'F', 'mail': 'madoka_sax@asahi_net.jp'}
+}
+
+# Esercizio Punto 1
+def valori_in_rubrica(rubrica):
+  
+  #iterazione attraverso il dizionario 
+  for nome, dati in rubrica.items():      #.items() serve per accedere alla chiave principale e ai dati
+    
+    #creo una lista di stringhe formattate per i dati personali tramite un ciclo for
+    dettagli = [f"'{chiave}':{valore}" for chiave, valore in dati.items()]
+    
+    #unisco tutti i dettagli 
+    print(f"'{nome}':{','.join(dettagli)}")
+
+
+# Esercizio Punto 2
+def lista_delle_età(rubrica):
+
+
+   
+
+
+
+# valori_in_rubrica(rubrica)
+
+lista_delle_età(rubrica)
+
