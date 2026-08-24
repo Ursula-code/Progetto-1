@@ -38,12 +38,166 @@ def valori_in_rubrica(rubrica):
 # Esercizio Punto 2
 def lista_delle_età(rubrica):
 
+  #estrazione delle età 
+  lista_eta = []
+  for nome, dati in rubrica.items():
+    lista_eta.append(dati['età'])
+  
+  #riordino la lista
+  lista_eta.sort()
+  print(lista_eta)
 
-   
+  # stampo i nomi associandoli alle età gia ordinate
+  print("\n Nomi ordinati per età:")
+  for eta in lista_eta:
+    for nome, dati in rubrica.items():
+      if dati['età'] == eta:
+        print(f"{nome}: {eta} anni")
+  return lista_eta
+
+
+# Esercizio Punto 3 
+def lista_invertita(lista_eta):
+  
+  #inverto la lista
+  lista_eta_invertita = lista_eta[::-1]
+  
+  print(lista_eta_invertita)
+
+
+# Esercizio Punto 4
+def stampa_messaggi(rubrica):
+
+  #inizio un ciclo che scorre la lista
+  for nome, dati in rubrica.items():
+    #determino le desinenze
+    if dati['sesso'] == 'M':
+      desinenza = 'o'
+    else:
+      desinenza = 'a'
+  
+  #stampo il messaggio 
+    messaggio = f"""
+    Car{desinenza} {nome},
+    sei nat{desinenza} il {dati['giorno']} di {dati['mese']} del {dati['anno']} e quindi a breve compirai {dati['età']} anni.
+    Ti manderemo gli auguri a {dati['mail']}
+    """
+    print(messaggio)
+
+
+
+# Esercizio Punto 5
+import sys
+
+def cerca_per_chiave(rubrica, chiave=None):
+    # Se la chiave non è passata come parametro, la legge da sys.argv (Punto 5)
+    if chiave is None:
+        if len(sys.argv) < 2:
+            print("Errore: devi passare una chiave valida")
+            return
+        chiave = sys.argv[1]
+
+    print(f"\n--- Valori associati alla chiave '{chiave}' ---")
+
+    # Questo blocco (il ciclo for) RIMANE IDENTICO a come lo hai già scritto:
+    for nome, dati in rubrica.items():
+        if chiave in dati:
+            print(f"{nome}: {dati[chiave]}")
+        else:
+            print(f"La chiave '{chiave}' non esiste per {nome}.")
+
+
+# Esercizio Punto 6
+import argparse
+def stampa_messaggi(rubrica, nome_filtro=None):      #se viene passato un nome specifico filtra la rubrica 
+
+  if nome_filtro:
+    if nome_filtro in rubrica:
+      #crea una sub-rubrica dontenente solo la persona indicata
+      rubrica = {nome_filtro: rubrica[nome_filtro]}
+    else:
+      print(f"Errore: il nome '{nome_filtro}' non è presente in rubrica")
+      return
+
+  #creo un ciclo di stampa per il punto 4
+  for nome, dati in rubrica.items():
+    if dati['sesso'] == 'M':
+      desinenza = 'o'
+    else:
+      desinenza = 'a'
+    
+    messaggio = f"""
+    Car{desinenza} {nome},
+    sei nat{desinenza} il {dati['giorno']} di {dati['mese']} del {dati['anno']} e quindi a breve compirai {dati['età']} anni.
+    Ti manderemo gli auguri a {dati['mail']}
+    """
+
+    #stampa il messaggio per il nome scelto
+    print(messaggio)
+
+  #comando per gestire i parametri dal teminale 
+#if __name__ == "__main__":
+#  praser = argparse.ArgumentParser(description="Gestione Rubrica")
+
+  #definisco il parametro facoltativo --nome 
+#  praser.add_argument(
+#    '--nome',
+#    type=str,
+#    help="nome e cognome della persona per cui stampare il messaggio"
+#    )
+
+#  args = praser.parse_args()
+
+  #se l'opzione --nome è stata fornita, esegue il punto 4 solo per quel nome 
+#  if args.nome:
+#   stampa_messaggi(rubrica, nome_filtro=args.nome)
+
+
+
+# Esercizio Punto 7
+def opzioni(rubrica):
+  parser = argparse.ArgumentParser(description="Gestione della Rubrica")
+
+    #definisco le opzioni per i punti da 1 a 6
+  parser.add_argument('--stampa_rubrica', action='store_true', help="Esegue il punto 1")
+  parser.add_argument('--lista_ordinata', action='store_true', help="Esegue il punto 2")
+  parser.add_argument('--lista_invertita', action='store_true', help="Esegue il punto 3")    
+  parser.add_argument('--tutti_messaggi', action='store_true', help="Esegue il punto 4 per tutti")
+  parser.add_argument('--cerca_chiave', type=str, help="Esegue il punto 5 cercando la chiave fornita")
+  parser.add_argument('--nome', type=str, help="Esegue il punto 6 per un solo nome")
+     
+  args = parser.parse_args()
+
+  #definisco la logica di esecuzione in base al parametro inserito
+  if args.stampa_rubrica:
+    valori_in_rubrica(rubrica)
+    
+  if args.lista_ordinata:
+    lista_eta = lista_delle_età(rubrica)
+
+  if args.lista_invertita:
+    lista_eta = lista_delle_età(rubrica)
+    lista_invertita(lista_eta)
+    
+  if args.tutti_messaggi:
+    stampa_messaggi(rubrica)
+
+  if args.cerca_chiave:
+    cerca_per_chiave(rubrica, args.cerca_chiave)
+
+  if args.nome:
+    stampa_messaggi(rubrica, nome_filtro=args.nome)
+
 
 
 
 # valori_in_rubrica(rubrica)
 
-lista_delle_età(rubrica)
+#lista_eta = lista_delle_età(rubrica)
+#lista_invertita(lista_eta)
 
+#stampa_messaggi(rubrica)
+
+#cerca_per_chiave(rubrica)
+
+#opzioni(rubrica)
