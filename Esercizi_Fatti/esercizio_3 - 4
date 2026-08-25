@@ -87,8 +87,8 @@ def stampa_messaggi(rubrica):
 
 
 # Esercizio Punto 5
-import sys
-
+import sys          #'''sys.argv è una lista fornita dal modulo sys che contiene argomenti passati da riga di comando 
+ #qui viene usato posizionalmente accedendo a sys.argv[1] per recuperare direttamente la chiave di ricerca inserita'''
 def cerca_per_chiave(rubrica, chiave=None):
     # Se la chiave non è passata come parametro, la legge da sys.argv (Punto 5)
     if chiave is None:
@@ -108,7 +108,8 @@ def cerca_per_chiave(rubrica, chiave=None):
 
 
 # Esercizio Punto 6
-import argparse
+import argparse         #'''argprase è la libreria standard di python per creare interfacce a riga di comando strutturate
+#qui viene usata per definire la flag (--nome) che permette di filtrare e stampare il messaggio solo per l'utente inserito'''
 def stampa_messaggi(rubrica, nome_filtro=None):      #se viene passato un nome specifico filtra la rubrica 
 
   if nome_filtro:
@@ -153,11 +154,49 @@ def stampa_messaggi(rubrica, nome_filtro=None):      #se viene passato un nome s
 #   stampa_messaggi(rubrica, nome_filtro=args.nome)
 
 
+# Esercizio: 4 - Punto 1
+def salva_txt(rubrica, nome_file="rubrica.txt"):
+    with open(nome_file, "w") as file:
+        for nome, dati in rubrica.items():
+            # Formattiamo ogni riga esattamente come richiesto dall'esempio:
+            # Paolino Paperino, 9, giugno, 1934, 89, M, paolino.paperino@disney.org
+            riga = f"{nome}, {dati['giorno']}, {dati['mese']}, {dati['anno']}, {dati['età']}, {dati['sesso']}, {dati['mail']}\n"
+            file.write(riga)
+    print(f"File '{nome_file}' generato con successo.")
 
-# Esercizio Punto 7
+#salva_txt(rubrica)       #se lo fai correre insieme al ultimo punto dell'es.3 lascia il cancelletto qui
+
+
+# Esercizio: 4 - Punto 2
+import json
+def salva_json(rubrica, nome_file="rubrica.json"):
+    with open(nome_file, "w") as file:
+        # json.dump prende il dizionario 'rubrica' e lo scrive nel file in formato JSON
+        # indent=4 serve per formattare il file in modo bello e leggibile
+        json.dump(rubrica, file, indent=4)
+    print(f"File '{nome_file}' generato con successo.")
+
+
+# Esercizio 4 - Punto 3
+def leggi_json(nome_file="rubrica.json"):
+    with open(nome_file, "r") as file:
+        # json.load legge il file JSON e lo riconverte in un dizionario Python
+        dati = json.load(file)
+    
+    print("--- CONTENUTO DEL FILE JSON ---")
+    print(dati)
+
+
+# Esercizio: 3 - Punto 7
+#'''viene usata per centralizzare l'esecuzione dell'intero programma, definendo diverse opzioni da terminale
+#per attivere ogniuno dei punti dell'esercizio di base'''
 def opzioni(rubrica):
+  
   parser = argparse.ArgumentParser(description="Gestione della Rubrica")
-
+  parser.add_argument('--salva_txt', action='store_true')
+  parser.add_argument('--salva_json', action='store_true', help="Genera il file rubrica.json")
+  parser.add_argument('--leggi_json', action='store_true', help="Legge e stampa il file rubrica.json")
+  
     #definisco le opzioni per i punti da 1 a 6
   parser.add_argument('--stampa_rubrica', action='store_true', help="Esegue il punto 1")
   parser.add_argument('--lista_ordinata', action='store_true', help="Esegue il punto 2")
@@ -189,6 +228,14 @@ def opzioni(rubrica):
     stampa_messaggi(rubrica, nome_filtro=args.nome)
 
 
+  if args.salva_txt:
+    salva_txt(rubrica)
+
+  if args.salva_json:
+    salva_json(rubrica)
+
+  if args.leggi_json:
+    leggi_json()
 
 
 # valori_in_rubrica(rubrica)
@@ -201,3 +248,10 @@ def opzioni(rubrica):
 #cerca_per_chiave(rubrica)
 
 #opzioni(rubrica)
+
+
+if __name__ == "__main__":      #per il punto 1 esercizio 4 
+   opzioni(rubrica)
+
+
+
