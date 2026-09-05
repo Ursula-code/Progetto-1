@@ -1,0 +1,115 @@
+# Esercizio 7
+# Autore: Ursula Sechi 
+# Data: 15/05/2026
+
+
+
+
+import random
+import sys
+
+# Esercizio Punto 1
+def genera_tabellina(numero):
+   
+    # Genera i calcoli della tabellina uno alla volta tramite 'yield'.
+    for i in range(11):
+        risultato = i * numero
+        yield i, numero, risultato
+
+
+# Esercizio Punto 5
+def gestisci_chiusura_gioco(input_testo):
+   
+    # Elenco delle parole accettate per richiedere la chiusura
+    parole_chiave_uscita = ["esci", "exit", "stop", "fine", "q"]
+    
+    # '.lower().strip()' rende il controllo insensibile a maiuscole/spazi (es. "ESCI " -> "esci")
+    if input_testo.lower().strip() in parole_chiave_uscita:
+        print("\n" + "=" * 50)
+        print("  HAI SCELTO DI USCIRE DAL GIOCO.")
+        print("  Grazie per esserti allenato con le tabelline! Ciao!")
+        print("=" * 50 + "\n")
+        
+        # 'sys.exit()' interrompe immediatamente ed in modo pulito l'esecuzione del programma
+        sys.exit()
+
+
+# Esercizio Punti 3-4
+def gestisci_caratteri_speciali_e_decimali(testo_input):
+   
+    # se viene inserito un numero con la virgola la converte in un punto
+    ingresso_modificato = testo_input.strip().replace(',', '.')
+    
+    # verifica che tipo di valori sono stati inseriti 
+    try:
+        valore_fluttuante = float(ingresso_modificato)
+        valore_intero = round(valore_fluttuante)
+
+        # arrotonda il valore decimale a uno intero 
+        if valore_fluttuante != valore_intero:
+            print(f">> Nota: Il numero decimale {valore_fluttuante} è stato arrotondato a {valore_intero}.")
+            
+        return valore_intero
+    except ValueError:
+        return None
+
+
+def chiedi_input_sicuro(messaggio):
+    
+    #Coordina la lettura dell'input unendo il controllo chiusura (Punto 5), la gestione dei decimali e la protezione da errori alfanumerici (Punti 3 e 4).
+
+    while True:
+        valore_raw = input(messaggio)
+        
+        # Verifichiamo subito se l'utente vuole uscire (Punto 5)
+        gestisci_chiusura_gioco(valore_raw)
+        
+        # Proviamo a convertire il valore inserito (Punti 3 e 4)
+        risultato_convertito = gestisci_caratteri_speciali_e_decimali(valore_raw)
+        
+        if risultato_convertito is not None:
+            return risultato_convertito
+        else:
+            print(">> Errore! Hai inserito caratteri non validi. Riprova con un numero o scrivi 'esci' per chiudere.")
+
+
+# Esercizio Punto 2
+def gioco_tabellina():
+    print("==================================================")
+    print("      BENVENUTO NEL GIOCO DELLE TABELLINE!        ")
+    print(" (Scrivi 'esci' in qualsiasi momento per chiudere)")
+    print("==================================================\n")
+
+    # Richiesta sicura del numero base
+    numero_scelto = chiedi_input_sicuro("Inserisci il numero della tabellina: ")
+
+    # ESECUZIONE PUNTO 1
+    print(f"\n--- PUNTO 1: GENERAZIONE TABELLINA DEL {numero_scelto} ---")
+    generatore_p1 = genera_tabellina(numero_scelto)
+    for mol, base, prod in generatore_p1:
+        print(f"{mol}x{base} = {prod}")
+
+    # ESECUZIONE PUNTO 2
+    print(f"\n--- PUNTO 2: INDOVINA LA TABELLINA (ORDINE SPARSO) ---\n")
+    
+    generatore_p2 = genera_tabellina(numero_scelto)
+    lista_tabellina = list(generatore_p2)
+    random.shuffle(lista_tabellina)
+
+    for moltiplicatore, base, prodotto_corretto in lista_tabellina:
+        mentre_sbaglia = True
+        
+        while mentre_sbaglia:
+            # Chiediamo la risposta; se l'utente digita 'esci', la funzione interromperà il gioco qui
+            risposta_utente = chiedi_input_sicuro(f"Quanto fa {moltiplicatore}x{base}? ")
+            
+            if risposta_utente == prodotto_corretto:
+                print("Corretto!\n")
+                mentre_sbaglia = False
+            else:
+                print("Sbagliato! Riprova...")
+
+    print("Complimenti! Hai completato l'intero esercizio!")
+
+
+gioco_tabellina()
