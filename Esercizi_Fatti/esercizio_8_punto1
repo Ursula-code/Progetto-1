@@ -1,0 +1,89 @@
+# Esercizio 8
+# Autore: Ursula Sechi 
+# Data: 03/07/2026
+
+# Le parole sono salvate nel file parole.json
+
+
+import json
+import random
+
+
+def carica_parole(file_path):
+    #Carica la lista di parole dal file JSON
+    with open(file_path, "r", encoding="utf-8") as file:
+        return json.load(file)
+
+
+def gioca_impiccato():
+    # Carica le parole e ne sceglie una a caso
+    parole = carica_parole("Esercizi_Fatti/parole.json")
+    parola_segreta = random.choice(parole).lower()
+
+    tentativi_rimasti = 6
+    lettere_indovinate = set()
+    lettere_sbagliate = set()
+
+    print("INIZIA IL GIOCO")
+
+    while tentativi_rimasti > 0:
+        # Mostra lo stato attuale della parola 
+        stato_parola = [
+            lettera if lettera in lettere_indovinate else "_"
+            for lettera in parola_segreta
+        ]
+        print(f"\nParola: {' '.join(stato_parola)}")
+        print(f"Tentativi rimasti: {tentativi_rimasti}")
+        print(f"Lettere sbagliate: {', '.join(sorted(lettere_sbagliate))}")
+
+        # Controllo se le singole lettere sono nella parola
+        if "_" not in stato_parola:
+            print("\nComplimenti! Hai indovinato la parola!")
+            break
+
+        # Input dall'utente si chiede una lettera o una parola intera
+        scelta = (
+            input("Inserisci una lettera o prova a indovinare la parola: ")
+            .strip()
+            .lower()
+        )
+
+        # Gestione tentativo di indovinare l'intera parola usando la tecnica LBYL
+        if len(scelta) > 1:
+            if scelta == parola_segreta:
+                print(
+                    f"\nFantastico! Hai indovinato la parola intera: '{parola_segreta}'!"
+                )
+                break
+            else:
+                print(f"Sbagliato! '{scelta}' non è la parola corretta.")
+                tentativi_rimasti -= 1
+            continue
+
+        # Validazione input per singola lettera inserita
+        if not scelta.isalpha() or len(scelta) == 0:
+            print("Per favore, inserisci un carattere valido.")
+            continue
+
+        if scelta in lettere_indovinate or scelta in lettere_sbagliate:
+            print("Hai già provato questa lettera!")
+            continue
+
+        # Verifica della lettera scelta
+        if scelta in parola_segreta:
+            lettere_indovinate.add(scelta)
+            print(f"Ottimo! La lettera '{scelta}' è presente.")
+        else:
+            lettere_sbagliate.add(scelta)
+            tentativi_rimasti -= 1
+            print(f"Purtroppo la lettera '{scelta}' non c'è.")
+
+    # Controllo il numero dei tentativi
+    if tentativi_rimasti == 0:
+        print(
+            f"\nHai esaurito i tentativi! La parola era: '{parola_segreta}'."
+        )
+
+
+if __name__ == "__main__":
+    gioca_impiccato()

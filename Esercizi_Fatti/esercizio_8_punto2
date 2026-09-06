@@ -1,0 +1,71 @@
+
+
+
+
+
+import json
+import random
+
+# 1. Caricamento parole da file JSON (creiamo un file di esempio se serve)
+# Esempio contenuto parole.json: ["programmazione", "python", "computer", "algoritmo"]
+try:
+    with open("parole.json", "r", encoding="utf-8") as f:
+        lista_parole = json.load(f)
+except FileNotFoundError:
+    lista_parole = ["python", "programmazione", "computer", "sviluppo"]
+
+# 2. Selezione casuale della parola
+parola_segreta = random.choice(lista_parole).lower()
+
+# Creazione di un dizionario per mappare le lettere presenti nella parola
+# Chiave: lettera, Valore: lista degli indici in cui compare
+mappa_lettere = {}
+for i, lettera in enumerate(parola_segreta):
+    mappa_lettere.setdefault(lettera, []).append(i)
+
+tentativi = 6
+lettere_indovinate = set()
+stato_parola = ["_"] * len(parola_segreta)
+
+print("--- GIOCCO DELL'IMPICCATO ---")
+
+# 3. Ciclo principale del gioco
+while tentativi > 0 and "_" in stato_parola:
+    print(f"\nParola: {' '.join(stato_parola)}")
+    print(f"Tentativi rimasti: {tentativi}")
+
+    scelta = input("Inserisci una lettera o indovina la parola intera: ").strip().lower()
+
+    # Se l'utente tenta di indovinare la parola intera
+    if len(scelta) > 1:
+        if scelta == parola_segreta:
+            stato_parola = list(parola_segreta)
+            break
+        else:
+            print("Parola errata!")
+            tentativi -= 1
+            continue
+
+    # Gestione dell'input tramite try-except KeyError
+    try:
+        # Se la lettera è nella mappa, KeyError NON viene sollevato
+        indici = mappa_lettere[scelta]
+        
+        if scelta in lettere_indovinate:
+            print(f"Hai già inserito la lettera '{scelta}'!")
+        else:
+            lettere_indovinate.add(scelta)
+            for idx in indici:
+                stato_parola[idx] = scelta
+            print(f"Buona idea! La lettera '{scelta}' è presente.")
+
+    except KeyError:
+        # KeyError viene catturato se la lettera NON è presente nel dizionario
+        print(f"La lettera '{scelta}' non è presente nella parola.")
+        tentativi -= 1
+
+# Esito del gioco
+if "_" not in stato_parola:
+    print(f"\nComplimenti! Hai vinto! La parola era: {parola_segreta}")
+else:
+    print(f"\nHai perso! La parola corretta era: {parola_segreta}")
