@@ -1,4 +1,8 @@
+# Esercizio 8
+# Autore: Ursula Sechi 
+# Data: 03/07/2026
 
+# Le parole sono salvate nel file parole.json
 
 
 
@@ -6,66 +10,85 @@
 import json
 import random
 
-# 1. Caricamento parole da file JSON (creiamo un file di esempio se serve)
-# Esempio contenuto parole.json: ["programmazione", "python", "computer", "algoritmo"]
+# Caricamento file JSON 
 try:
-    with open("parole.json", "r", encoding="utf-8") as f:
+    with open("Esercizi_Fatti/parole.json", "r", encoding="utf-8") as f:
         lista_parole = json.load(f)
 except FileNotFoundError:
     lista_parole = ["python", "programmazione", "computer", "sviluppo"]
 
-# 2. Selezione casuale della parola
 parola_segreta = random.choice(lista_parole).lower()
 
 # Creazione di un dizionario per mappare le lettere presenti nella parola
-# Chiave: lettera, Valore: lista degli indici in cui compare
 mappa_lettere = {}
+# Chiave: lettera, Valore: lista degli indici in cui compare
 for i, lettera in enumerate(parola_segreta):
     mappa_lettere.setdefault(lettera, []).append(i)
 
-tentativi = 6
-lettere_indovinate = set()
+# Dizionario dei tentativi usati (utilizzato per sollevare KeyError)
+lettere_gia_provate = {}
+
+tentativi_rimasti = [1] * 6  # Lista usata come contatore
 stato_parola = ["_"] * len(parola_segreta)
 
-print("--- GIOCCO DELL'IMPICCATO ---")
+print("INIZIA IL GIOCO:")
 
-# 3. Ciclo principale del gioco
-while tentativi > 0 and "_" in stato_parola:
+# Il ciclo continua finché ci sono tentativi e trattini
+while True:
+    # Verifico se il gioco deve finire sfruttando l'eccezione IndexError (quando l'indice non esiste)
+    try:
+        tentativi_rimasti[0]
+        stato_parola.index("_")
+    except IndexError:
+        break
+
     print(f"\nParola: {' '.join(stato_parola)}")
-    print(f"Tentativi rimasti: {tentativi}")
+    print(f"Tentativi rimasti: {len(tentativi_rimasti)}")
 
-    scelta = input("Inserisci una lettera o indovina la parola intera: ").strip().lower()
+    scelta = input("Inserisci una lettera o la parola intera: ").strip().lower()
 
-    # Se l'utente tenta di indovinare la parola intera
-    if len(scelta) > 1:
-        if scelta == parola_segreta:
+    # Controllo se l'utente tenta di indovinare la parola intera
+    try:
+        # Se len(scelta) == 1 fa scattare ZeroDivisionError, saltando al controllo lettera
+        1 // (len(scelta) - 1)
+
+        # Se la parola è corretta, aggiorna lo stato ed esce dal ciclo
+        try:
+            1 // (scelta == parola_segreta)
             stato_parola = list(parola_segreta)
             break
-        else:
+        except ZeroDivisionError:
             print("Parola errata!")
-            tentativi -= 1
+            tentativi_rimasti.pop()
             continue
 
-    # Gestione dell'input tramite try-except KeyError
+    #in questo caso equivale al False ovvero 1/0
+    except ZeroDivisionError:
+        pass  # L'utente ha inserito una singola lettera
+
+    # Gestione inserimento singola lettera
     try:
-        # Se la lettera è nella mappa, KeyError NON viene sollevato
-        indici = mappa_lettere[scelta]
-        
-        if scelta in lettere_indovinate:
-            print(f"Hai già inserito la lettera '{scelta}'!")
-        else:
-            lettere_indovinate.add(scelta)
-            for idx in indici:
-                stato_parola[idx] = scelta
-            print(f"Buona idea! La lettera '{scelta}' è presente.")
+        # Controlla se la lettera è già stata provata (solleva KeyError se è nuova)
+        lettere_gia_provate[scelta]
+        print(f"Hai già provato la lettera '{scelta}'!")
 
     except KeyError:
-        # KeyError viene catturato se la lettera NON è presente nel dizionario
-        print(f"La lettera '{scelta}' non è presente nella parola.")
-        tentativi -= 1
+        lettere_gia_provate[scelta] = True  # Marca la lettera come usata
 
-# Esito del gioco
-if "_" not in stato_parola:
+        try:
+            # Recupera gli indici: solleva KeyError se la lettera non è nella parola
+            indici = mappa_lettere[scelta]
+            for idx in indici:
+                stato_parola[idx] = scelta
+            print(f"Ottimo! La lettera '{scelta}' è presente.")
+
+        except KeyError:
+            print(f"La lettera '{scelta}' non è presente.")
+            tentativi_rimasti.pop()
+
+
+try:
+    stato_parola.index("_")
+    print(f"\nHai perso! La parola era: {parola_segreta}")
+except ValueError:
     print(f"\nComplimenti! Hai vinto! La parola era: {parola_segreta}")
-else:
-    print(f"\nHai perso! La parola corretta era: {parola_segreta}")
