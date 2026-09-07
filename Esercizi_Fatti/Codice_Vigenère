@@ -1,0 +1,98 @@
+# Progetto: Codice Vigenère 
+# Autore: Ursula Sechi 
+# Data: 21/07/2026
+
+
+
+
+
+
+def cifra_vigenere(testo, chiave, decifra=False):
+    risultato = []
+    
+    # Filtra la chiave per mantenere solo le lettere e convertirla in maiuscolo
+    # - 'if c.isalpha()': tieni il carattere solo se è una lettera dell'alfabeto 
+    # - 'c.upper()': trasforma la lettera in maiuscolo
+    # - "".join(...): unisce tutte le lettere pulite in un'unica stringa continua
+    chiave_pulita = "".join([c.upper() for c in chiave if c.isalpha()])
+
+    # Se l'utente ha inserito una chiave senza lettere, la chiave pulita sarà vuota. In quel caso, restituiamo il testo così com'è.
+    if not chiave_pulita:
+        return testo
+
+    # tiene traccia di quale lettera della parola dobbiamo usare    
+    chiave_indice = 0
+    
+    # .isalpha() restituisce True se è una lettera dell'alfabeto, False se è uno spazio, un numero o un simbolo.
+    for carattere in testo:
+        if carattere.isalpha():
+            
+            # In informatica, ogni lettera ha un codice numerico (Tabella ASCII)
+            # Dobbiamo capire la base per sapere da dove partire a contare (0 per la 'A'), se il carattere è maiuscolo, la base è il codice di 'A' (65), altrimenti di 'a' (97).
+            codice_base = ord('A') if carattere.isupper() else ord('a')
+            
+            # Ricava lo spostamento basato sulla lettera corrente della chiave
+            carattere_chiave = chiave_pulita[chiave_indice % len(chiave_pulita)]
+            # Sottraendo il codice di 'A' (65) dal codice del carattere della chiave otteniamo la sua posizione nell'alfabeto 
+            # - Questo numero rappresenta di quante posizioni dobbiamo spostare la lettera del testo.
+            spostamento = ord(carattere_chiave) - ord('A')
+            
+            #se la modalità è decifra lo spostamento deve essere al contrario (negativo)
+            if decifra:
+                spostamento = -spostamento
+            
+            # 1. ord(carattere) - codice_base: trasforma la lettera del testo in un numero da 0 a 25
+            # 3. % 26: l'operatore modulo fa sì che se superiamo la 'Z' (25), si ricomincia automaticamente da capo 
+            # 4. + codice_base: riconverte il numero nel codice ASCII corretto.
+            nuovo_codice = (ord(carattere) - codice_base + spostamento) % 26 + codice_base
+            
+            #trasforma il nuovo codice numerico dinuovo in una lettera e la aggiunge alla lista risultato
+            risultato.append(chr(nuovo_codice))
+            
+            # Avanza l'indice della chiave solo se il carattere cifrato è una lettera
+            chiave_indice += 1
+        
+        else:
+            # Lascia inalterati spazi e segni di punteggiatura
+            risultato.append(carattere)
+
+    # restituisce il risultato tutti insieme      
+    return "".join(risultato)
+
+
+def main():
+    print("--- SIMULATORE CIFRARIO DI VIGENÈRE ---")
+    
+    while True:
+
+        # .lower() converte l'input in minuscolo 
+        scelta = input("Vuoi (c)ifrare o (d)ecifrare un testo? (esci per terminare): ").lower()
+        
+        if scelta == 'esci':
+            print("Arrivederci!")
+            break
+        
+        # Se l'utente scrive qualcosa di diverso da 'c', 'd' o 'esci', mostriamo un errore e usiamo 'continue' per ricominciare il ciclo    
+        if scelta not in ['c', 'd']:
+            print("Scelta non valida. Riprova.\n")
+            continue
+            
+        testo = input("Inserisci il messaggio: ")
+        chiave = input("Inserisci la parola chiave: ")
+        
+        # 'any(...)' restituisce True se almeno un carattere della chiave è una lettera (.isalpha())
+        if not any(c.isalpha() for c in chiave):
+            print("Errore: la chiave deve contenere almeno una lettera alfabetica.\n")
+            continue
+            
+        decifratura = (scelta == 'd')
+
+        # chiamo la funzione creata in alto passandole il testo, la chiave e la modalità
+        risultato = cifra_vigenere(testo, chiave, decifra=decifratura)
+        
+        modalita = "decifrato" if decifratura else "cifrato"
+        print(f"\nRisultato ({modalita}): {risultato}\n" + "-"*40 + "\n")
+
+
+if __name__ == "__main__":
+    main()
